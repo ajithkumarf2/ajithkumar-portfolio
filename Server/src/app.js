@@ -40,7 +40,20 @@ app.use('/api', generalLimiter);
 // API routes
 app.use('/api', routes);
 
-// Top-level health route
+// Root & health routes
+app.get('/', (req, res) => {
+  res.json({
+    success: true,
+    message: 'Ajithkumar E Portfolio API is running',
+    endpoints: {
+      health: '/api/health',
+      chat: '/api/chat/stream',
+      contact: '/api/contact',
+      analytics: '/api/analytics'
+    }
+  });
+});
+
 app.get('/health', (req, res) => {
   res.redirect('/api/health');
 });
