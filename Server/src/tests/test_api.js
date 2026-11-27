@@ -83,6 +83,7 @@ async function runTests() {
     process.exitCode = 1;
   } finally {
     server.close();
+    process.exit(process.exitCode || 0);
   }
 }
 
