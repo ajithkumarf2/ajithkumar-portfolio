@@ -1,0 +1,52 @@
+{
+  "name": "Ajithkumar E",
+  "title": "Software Developer",
+  "specialization": "Full-Stack Development & AI Orchestration",
+  "contact": {
+    "email": "ajithkumare101@gmail.com",
+    "phone": "+916380644382",
+    "location": "Pattambi, Kerala, India",
+    "linkedin": "https://www.linkedin.com/in/ajithkumar-e-27894028b",
+    "github": "https://github.com/ajithkumarf2"
+  },
+  "summary": "Full-stack developer with hands-on experience building web applications using React.js, Node.js, Express.js, MySQL and MongoDB. Built AI-powered projects using LangChain, LangGraph, RAG, and the Google Gemini API, along with REST APIs, JWT authentication and role-based access control. Experienced in API design, bug fixing, testing and Agile delivery, with a strong foundation in OOP, DBMS and operating systems.",
+  "education": [
+    {
+      "degree": "B.E. in Computer Science and Engineering",
+      "institution": "PPG Institute of Technology, Saravanampatti, Coimbatore",
+      "period": "Aug 2021 – Jun 2025",
+      "grade": "CGPA: 6.7/10",
+      "coursework": ["OOP", "Operating Systems", "DBMS", "Computer Networks"]
+    },
+    {
+      "degree": "Higher Secondary School",
+      "institution": "St. Antony’s Hr. Sec. School, Elathagiri, Krishnagiri",
+      "period": "Jun 2019 – Mar 2021",
+      "grade": "70%"
+    },
+    {
+      "degree": "SSLC",
+      "institution": "St. John’s High School, Kovilur, Dharmapuri",
+      "period": "Jun 2018 – Mar 2019",
+      "grade": "64%"
+    }
+  ],
+  "experience": [
+    {
+      "role": "Software Developer Intern",
+      "company": "V-Net Technology",
+      "location": "Coimbatore, India",
+      "period": "Jul 2024 – Aug 2024",
+      "highlights": [
+        "Built Quick.ai, a full-stack AI SaaS article platform, using async Node.js and Express.js to support concurrent multi-user sessions, cutting API latency by ~20%.",
+        "Integrated Clerk authentication with role-based access control (RBAC) and deployed the app on Vercel with a CI/CD pipeline and production environment configuration.",
+        "Built a Library Management System with a modular backend, JWT authentication, reusable React.js components, and an analytics dashboard; developed book management APIs for 100+ records, including issue tracking, wishlist, and recommendations."
+      ]
+    }
+  ],
+  "certifications": [
+    { "name": "MySQL Certification", "issuer": "Learnz Development Hub" },
+    { "name": "JavaScript Fundamentals", "issuer": "Learnz Development Hub" },
+    { "name": "React Hooks", "issuer": "Great Stack" }
+  ]
+}

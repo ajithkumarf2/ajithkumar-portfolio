@@ -1,0 +1,120 @@
+[
+  {
+    "id": "ai-task-manager",
+    "title": "AI Task Manager — AI-Powered Task Management Platform",
+    "shortDescription": "Production-ready task management platform with Gemini LLM, LangChain.js, LangGraph multi-agent workflows, and ChromaDB RAG over uploaded PDFs.",
+    "fullDescription": "Built a production-ready task management platform with the Google Gemini LLM and LangChain.js, enabling AI-driven task prioritization, workload summarization, and productivity recommendations through multi-agent LangGraph workflows. Implemented Retrieval-Augmented Generation (RAG) with ChromaDB vector storage and semantic search, processing uploaded PDFs into embeddings for context-aware natural language querying across tasks and documents. Engineered secure RESTful APIs with JWT authentication and role-based authorization; designed a normalized MySQL schema for users, tasks, conversations, and AI interaction history, following MVC architecture and modular service layers.",
+    "techStack": [
+      "React.js",
+      "Node.js",
+      "Express.js",
+      "MySQL",
+      "ChromaDB",
+      "LangChain.js",
+      "LangGraph",
+      "Google Gemini API",
+      "JWT",
+      "Tailwind CSS"
+    ],
+    "metrics": [
+      "Automated task prioritization & workload summarization via multi-agent workflows",
+      "RAG semantic search across uploaded PDF documents with vector embeddings",
+      "Normalized MySQL relational schema with MVC modular service layers"
+    ],
+    "featured": true,
+    "githubUrl": "https://github.com/ajithkumarf2/ai-task-manager",
+    "liveUrl": "https://ai-task-manager-demo.vercel.app"
+  },
+  {
+    "id": "grocery-ecommerce",
+    "title": "Full-Stack Grocery E-Commerce App",
+    "shortDescription": "High-throughput grocery commerce platform with 500+ products, cart, order workflows, JWT auth, RBAC, and Context API state optimization cutting re-renders by ~25%.",
+    "fullDescription": "Feature-rich platform with product listings, cart, and order workflows for 500+ products; JWT auth, RBAC, and Admin Dashboard. Optimised frontend state with Context API — reduced unnecessary re-renders, improving performance by ~25%. Modular backend architecture supports real-time cart synchronization, category filtering, and order tracking.",
+    "techStack": [
+      "React.js",
+      "Node.js",
+      "Express.js",
+      "MongoDB",
+      "Tailwind CSS",
+      "Context API",
+      "JWT",
+      "RBAC"
+    ],
+    "metrics": [
+      "Managed catalog of 500+ products with instant category filtering",
+      "~25% reduction in frontend re-renders via optimized Context API state",
+      "Role-based access control with administrative catalog and order management"
+    ],
+    "featured": true,
+    "githubUrl": "https://github.com/ajithkumarf2/grocery-ecommerce-app",
+    "liveUrl": "https://grocery-app-demo.vercel.app"
+  },
+  {
+    "id": "clueless-closet",
+    "title": "Clueless Closet — AI Fashion Platform",
+    "shortDescription": "Full-stack wardrobe management app with outfit builder, mix-and-match engine, and AI-driven outfit scheduling for personalized wardrobe recommendations.",
+    "fullDescription": "Built a full-stack wardrobe management app with an outfit builder, JWT authentication, and image upload; integrated a mix-and-match engine and AI-driven outfit scheduling that supports personalised wardrobe recommendations. Designed with high-fidelity Figma specifications and responsive UI components.",
+    "techStack": [
+      "React.js",
+      "Node.js",
+      "Express.js",
+      "MySQL",
+      "JWT",
+      "Figma",
+      "AI Recommendation Engine"
+    ],
+    "metrics": [
+      "Dynamic mix-and-match visual outfit canvas with image upload pipeline",
+      "AI-driven outfit scheduling based on calendar, weather, and occasion",
+      "Secure user profile and wardrobe isolation with JWT authentication"
+    ],
+    "featured": true,
+    "githubUrl": "https://github.com/ajithkumarf2/clueless-closet-ai",
+    "liveUrl": "https://clueless-closet-demo.vercel.app"
+  },
+  {
+    "id": "quick-ai",
+    "title": "Quick.ai — AI SaaS Article Platform (Internship Project)",
+    "shortDescription": "Full-stack AI SaaS article platform developed at V-Net Technology, using async Node.js/Express to cut API latency by ~20%, with Clerk auth and CI/CD.",
+    "fullDescription": "Built Quick.ai, a full-stack AI SaaS article platform, using async Node.js and Express.js to support concurrent multi-user sessions, cutting API latency by ~20%. Integrated Clerk authentication with role-based access control (RBAC) and deployed the app on Vercel with a CI/CD pipeline and production environment configuration.",
+    "techStack": [
+      "Node.js",
+      "Express.js",
+      "React.js",
+      "Clerk Auth",
+      "RBAC",
+      "Vercel",
+      "CI/CD"
+    ],
+    "metrics": [
+      "~20% API latency cut through async stream optimization in Node.js",
+      "Concurrent multi-user session management with enterprise RBAC",
+      "Automated CI/CD deployment pipeline to Vercel production"
+    ],
+    "featured": false,
+    "githubUrl": "https://github.com/ajithkumarf2/quick-ai-saas",
+    "liveUrl": "https://quick-ai-demo.vercel.app"
+  },
+  {
+    "id": "library-management-system",
+    "title": "Library Management System (Internship Project)",
+    "shortDescription": "Modular backend system with JWT auth, reusable React components, analytics dashboard, and book management APIs for 100+ records with recommendations.",
+    "fullDescription": "Built a Library Management System with a modular backend, JWT authentication, reusable React.js components, and an analytics dashboard; developed book management APIs for 100+ records, including issue tracking, wishlist, and recommendations.",
+    "techStack": [
+      "React.js",
+      "Node.js",
+      "Express.js",
+      "JWT",
+      "REST APIs",
+      "Analytics Dashboard"
+    ],
+    "metrics": [
+      "100+ book inventory records with issue tracking and wishlists",
+      "Real-time analytics dashboard on library circulation and usage",
+      "Modular RESTful micro-endpoints with JWT route protection"
+    ],
+    "featured": false,
+    "githubUrl": "https://github.com/ajithkumarf2/library-management-system",
+    "liveUrl": "https://library-system-demo.vercel.app"
+  }
+]

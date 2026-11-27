@@ -1,0 +1,68 @@
+{
+  "languages": [
+    { "name": "JavaScript", "level": "Advanced", "category": "Core" },
+    { "name": "Python", "level": "Intermediate", "category": "AI / Scripting" },
+    { "name": "SQL", "level": "Advanced", "category": "Relational Databases" },
+    { "name": "C#", "level": "Intermediate", "category": "Application Development" }
+  ],
+  "frontend": [
+    { "name": "React.js", "level": "Advanced" },
+    { "name": "Tailwind CSS", "level": "Advanced" },
+    { "name": "HTML5", "level": "Advanced" },
+    { "name": "CSS3", "level": "Advanced" },
+    { "name": "Context API", "level": "Advanced" }
+  ],
+  "backend": [
+    { "name": "Node.js", "level": "Advanced" },
+    { "name": "Express.js", "level": "Advanced" },
+    { "name": "REST APIs", "level": "Advanced" },
+    { "name": "JWT Authentication", "level": "Advanced" },
+    { "name": "MVC Architecture", "level": "Advanced" },
+    { "name": "ASP.NET", "level": "Familiar" }
+  ],
+  "databases": [
+    { "name": "MySQL", "type": "Relational (RDBMS)", "certified": true },
+    { "name": "MongoDB", "type": "Document / NoSQL" },
+    { "name": "ChromaDB", "type": "Vector Store for AI / RAG" }
+  ],
+  "ai_and_ml": [
+    { "name": "LangChain.js", "description": "LLM orchestration, prompt chains, document loaders" },
+    { "name": "LangGraph", "description": "Stateful multi-actor agent workflows and cyclical graphs" },
+    { "name": "Retrieval-Augmented Generation (RAG)", "description": "Semantic search, document chunking, contextual grounding" },
+    { "name": "Vector Embeddings & Semantic Search", "description": "Cosine similarity, dense vector retrieval" },
+    { "name": "Prompt Engineering", "description": "Few-shot prompting, system instructions, guardrailing" },
+    { "name": "AI Agents & Tool Calling", "description": "Dynamic reasoning and tool execution" },
+    { "name": "LLM APIs", "description": "Google Gemini API, OpenAI API, Claude API" }
+  ],
+  "tools_and_devops": [
+    { "name": "Git & GitHub", "description": "Version control, branching, PR review workflows" },
+    { "name": "Postman", "description": "API design, mocking, automated test collections" },
+    { "name": "Vercel", "description": "Continuous frontend deployment and edge previews" },
+    { "name": "CI/CD", "description": "Automated linting, testing, and deployment pipelines" },
+    { "name": "VS Code", "description": "Primary development environment" },
+    { "name": "Agile / Scrum", "description": "Sprint planning, standups, iterative delivery" }
+  ],
+  "core_cs": [
+    "Object-Oriented Programming (OOP)",
+    "Database Management Systems (DBMS)",
+    "Operating Systems (OS)",
+    "Computer Networks (CN)"
+  ],
+  "certifications": [
+    {
+      "title": "MySQL Certification",
+      "issuer": "Learnz Development Hub",
+      "focus": "Relational modeling, indexing, query optimization, complex joins"
+    },
+    {
+      "title": "JavaScript Fundamentals",
+      "issuer": "Learnz Development Hub",
+      "focus": "ES6+, closures, async/await, event loop, functional programming"
+    },
+    {
+      "title": "React Hooks",
+      "issuer": "Great Stack",
+      "focus": "Custom hooks, state management, useEffect lifecycle, performance optimization"
+    }
+  ]
+}

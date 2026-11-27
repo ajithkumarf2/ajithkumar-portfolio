@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Environment & Secrets (NEVER commit)
+.env
+*.env
+!.env.example
+
+# Build & Cache outputs
+dist/
+build/
+.embeddings_cache.json
+
+# Logs & OS files
+*.log
+.DS_Store
+Thumbs.db
