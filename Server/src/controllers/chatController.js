@@ -1,4 +1,5 @@
 import { spawn } from 'child_process';
+import fs from 'fs';
 import http from 'http';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -8,9 +9,121 @@ import { ResponseView } from '../views/responseView.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const AI_DIR = path.resolve(__dirname, '../../ai');
+const DATA_DIR = fs.existsSync(path.resolve(__dirname, '../../data'))
+  ? path.resolve(__dirname, '../../data')
+  : path.resolve(__dirname, '../../../data');
 const PYTHON_SERVICE_PATH = path.resolve(__dirname, '../../ai/service.py');
 const PYTHON_BIN = process.env.PYTHON_BIN || (process.platform === 'win32' ? 'python' : 'python3');
 const AI_WORKER_PORT = Number(process.env.AI_WORKER_PORT) || 5001;
+
+function loadPortfolioContext(query) {
+  const chunks = [];
+  try {
+    const aboutPath = path.join(DATA_DIR, 'about-me.md');
+    if (fs.existsSync(aboutPath)) chunks.push(fs.readFileSync(aboutPath, 'utf-8'));
+
+    const expPath = path.join(DATA_DIR, 'experience.md');
+    if (fs.existsSync(expPath)) chunks.push(fs.readFileSync(expPath, 'utf-8'));
+
+    const projPath = path.join(DATA_DIR, 'projects.json');
+    if (fs.existsSync(projPath)) {
+      const projects = JSON.parse(fs.readFileSync(projPath, 'utf-8'));
+      for (const p of projects) {
+        chunks.push(`${p.title} (${(p.techStack || []).join(', ')}): ${p.fullDescription || p.description}`);
+      }
+    }
+
+    const skillsPath = path.join(DATA_DIR, 'skills.json');
+    if (fs.existsSync(skillsPath)) {
+      chunks.push(`Skills: ${fs.readFileSync(skillsPath, 'utf-8')}`);
+    }
+  } catch (e) {}
+
+  const words = query.toLowerCase().split(/\W+/).filter(w => w.length > 2);
+  const scored = chunks.map(c => {
+    const lower = c.toLowerCase();
+    const score = words.reduce((acc, w) => acc + (lower.includes(w) ? 1 : 0), 0);
+    return { score, text: c };
+  });
+  scored.sort((a, b) => b.score - a.score);
+  return scored.slice(0, 3).map(s => s.text).join('\n\n');
+}
+
+async function streamViaNodeGemini(query, res) {
+  const qLower = query.toLowerCase();
+  const suggestLead = /hire|interview|available|job|recruiter|work with|contact|email|phone/.test(qLower);
+
+  // Guardrail check
+  if (/ignore (all|previous|above) instructions|system prompt|jailbreak|drop table|<script>/i.test(qLower)) {
+    res.write(`data: ${JSON.stringify({
+      delta: "I am Ajithkumar's portfolio AI assistant. I can only answer questions related to his technical background, projects, skills, and availability.",
+      citations: [],
+      suggestLeadCapture: false
+    })}\n\ndata: [DONE]\n\n`);
+    return '';
+  }
+
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) {
+    const fallback = "Ajithkumar E is a Full-Stack & AI Developer skilled in React.js, Node.js, Express, MySQL, MongoDB, LangChain, LangGraph, RAG, and the Gemini API. Reach out at ajithkumare101@gmail.com.";
+    res.write(`data: ${JSON.stringify({ delta: fallback, citations: [], suggestLeadCapture: suggestLead })}\n\ndata: [DONE]\n\n`);
+    return fallback;
+  }
+
+  const contextText = loadPortfolioContext(query);
+  const systemInstruction =
+    "You are the official AI assistant for Ajithkumar E, a full-stack and AI software developer. " +
+    "Answer accurately using ONLY the provided context. Never invent facts. " +
+    "Format every response cleanly and concisely (under 120 words): " +
+    "start with a 1-2 sentence direct overview, then use short bullet points formatted as '- **Topic:** concise detail'. " +
+    "Do NOT include any '(Source: ...)' or 'Sources:' text at the end of your reply. " +
+    "If the context lacks the answer, say so politely and suggest contacting ajithkumare101@gmail.com.";
+
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:streamGenerateContent?alt=sse&key=${encodeURIComponent(apiKey)}`;
+  const apiRes = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      systemInstruction: { parts: [{ text: systemInstruction }] },
+      contents: [{ role: 'user', parts: [{ text: `Context:\n${contextText}\n\nUser Question: ${query}` }] }]
+    })
+  });
+
+  if (!apiRes.ok || !apiRes.body) {
+    throw new Error(`Gemini HTTP ${apiRes.status}`);
+  }
+
+  const reader = apiRes.body.getReader();
+  const decoder = new TextDecoder();
+  let buffer = '';
+  let fullText = '';
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    buffer += decoder.decode(value, { stream: true });
+    const lines = buffer.split('\n');
+    buffer = lines.pop() || '';
+    for (const line of lines) {
+      if (line.startsWith('data: ')) {
+        try {
+          const parsed = JSON.parse(line.slice(6));
+          const delta = parsed?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+          if (delta) {
+            fullText += delta;
+            res.write(`data: ${JSON.stringify({ delta, citations: [], suggestLeadCapture: false })}\n\n`);
+          }
+        } catch (e) {}
+      }
+    }
+  }
+
+  if (suggestLead) {
+    res.write(`data: ${JSON.stringify({ delta: '', citations: [], suggestLeadCapture: true })}\n\n`);
+  }
+  res.write('data: [DONE]\n\n');
+  return fullText;
+}
 
 let aiWorkerProcess = null;
 let aiWorkerStarting = null;
@@ -65,8 +178,10 @@ async function ensureAiWorker() {
   return aiWorkerStarting;
 }
 
-// Pre-warm Python AI worker in background at server boot
-ensureAiWorker().catch(() => {});
+// Pre-warm Python AI worker locally (skip in Vercel serverless runtime)
+if (!process.env.VERCEL) {
+  ensureAiWorker().catch(() => {});
+}
 
 export class ChatController {
   static async streamChat(req, res) {
@@ -93,6 +208,32 @@ export class ChatController {
 
     let fullAssistantResponse = '';
     let citationsCollected = [];
+
+    // On Vercel serverless, use native Node.js Gemini + RAG streaming
+    if (process.env.VERCEL) {
+      try {
+        fullAssistantResponse = await streamViaNodeGemini(trimmedMsg, res);
+        if (fullAssistantResponse) {
+          await ChatModel.saveMessage({
+            sessionId,
+            role: 'assistant',
+            content: fullAssistantResponse,
+            citations: citationsCollected
+          });
+        }
+      } catch (err) {
+        console.error('[Vercel Gemini Stream Error]:', err.message);
+        const fallbackMsg = JSON.stringify({
+          delta: "I'm currently unable to reach the AI service. Please try again shortly, or contact Ajithkumar directly at ajithkumare101@gmail.com.",
+          citations: [],
+          suggestLeadCapture: false
+        });
+        res.write(`data: ${fallbackMsg}\n\ndata: [DONE]\n\n`);
+      } finally {
+        if (!res.writableEnded) res.end();
+      }
+      return;
+    }
 
     const parseAndForward = (chunkStr) => {
       res.write(chunkStr);

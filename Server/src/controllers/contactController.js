@@ -16,10 +16,12 @@ export class ContactController {
       const parsed = contactSchema.parse(req.body);
       const lead = await LeadModel.createLead(parsed);
 
-      // Send Gmail notification in background (never blocks or fails form submission)
-      EmailService.sendLeadNotification(lead).catch((err) => {
+      // Await email delivery so serverless runtimes (Vercel) don't freeze before SMTP completes
+      try {
+        await EmailService.sendLeadNotification(lead);
+      } catch (err) {
         console.error('[EmailService] Failed to send Gmail notification:', err.message);
-      });
+      }
 
       return ResponseView.success(res, lead, 201, 'Inquiry successfully submitted');
     } catch (err) {

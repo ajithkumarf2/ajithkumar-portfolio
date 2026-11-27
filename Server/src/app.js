@@ -4,8 +4,21 @@ import helmet from 'helmet';
 import routes from './routes/index.js';
 import { generalLimiter } from './middleware/rateLimiter.js';
 import { errorHandler } from './middleware/errorHandler.js';
+import { initDatabase, isDbConnected } from './models/db.js';
 
 const app = express();
+let dbInitPromise = null;
+
+// Ensure DB is initialized on serverless cold starts
+app.use(async (req, res, next) => {
+  if (!isDbConnected()) {
+    if (!dbInitPromise) {
+      dbInitPromise = initDatabase().finally(() => { dbInitPromise = null; });
+    }
+    await dbInitPromise;
+  }
+  next();
+});
 
 // Security headers
 app.use(helmet());
