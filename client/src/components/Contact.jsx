@@ -28,7 +28,8 @@ export default function Contact() {
       });
       if (!response.ok) {
         const err = await response.json().catch(() => ({}));
-        throw new Error(err.message || 'Failed to submit.');
+        const detail = err.errors?.[0]?.message || err.message || 'Failed to submit.';
+        throw new Error(detail);
       }
       setStatus('success');
       setFormData({ name: '', email: '', message: '' });
